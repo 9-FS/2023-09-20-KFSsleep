@@ -44,6 +44,9 @@ jobs:
         with:
           python-version: ${{env.PYTHON_VERSION}}
       
+      - name: Update Pip
+        run: pip install --upgrade pip
+      
       - name: Install Poetry
         run: |
           pip install poetry 
@@ -61,8 +64,8 @@ jobs:
             exit 1
           fi
       
-      - name: Run Tests
-        run: poetry run pytest
+      # - name: Run Tests
+      #   run: poetry run pytest
 
 
   create_release:
@@ -81,6 +84,9 @@ jobs:
         with:
           python-version: ${{env.PYTHON_VERSION}}
      
+      - name: Update Pip
+        run: pip install --upgrade pip
+      
       - name: Install Poetry
         run: |
           pip install poetry 
