@@ -1,7 +1,8 @@
 name: On Tag Release on Github
 env:
   PROJECT_NAME: KFSsleep
-  PYTHON_VERSION: ^3.11.0
+  PYTHON_VERSION: ^3.12.0
+  RUN_TESTS: false
 on:
   push: 
     tags:
@@ -46,7 +47,7 @@ jobs:
       
       - name: Update Pip
         run: pip install --upgrade pip
-      
+
       - name: Install Poetry
         run: |
           pip install poetry 
@@ -64,12 +65,13 @@ jobs:
             exit 1
           fi
       
-      # - name: Run Tests
-      #   run: poetry run pytest
+      - name: Run Tests
+        if: ${{env.RUN_TESTS=='true'}}
+        run: poetry run pytest
 
 
   create_release:
-    name: Create Release
+    name: Create Release on Github
     env:
       working-directory: ${{github.workspace}}
     needs: [datetime, test]
@@ -83,7 +85,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_VERSION}}
-     
+      
       - name: Update Pip
         run: pip install --upgrade pip
       
